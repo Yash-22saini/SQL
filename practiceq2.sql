@@ -36,3 +36,18 @@ WHERE e1.salary > (
 SELECT emp_name, hire_date
 FROM employees
 WHERE hire_date < (SELECT hire_date FROM employees WHERE emp_name = 'Alice');
+
+-- Find employees earning equal to the average salary of all employees
+SELECT emp_name, salary
+FROM employees
+WHERE salary = (SELECT AVG(salary) FROM employees);
+
+-- Find all employees who belong to a department where average salary > 45000
+SELECT emp_name, department_id, salary
+FROM employees
+WHERE department_id IN (
+    SELECT department_id
+    FROM employees
+    GROUP BY department_id
+    HAVING AVG(salary) > 45000
+);
